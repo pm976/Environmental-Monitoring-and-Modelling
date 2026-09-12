@@ -53,7 +53,6 @@ The change analysis among land cover and land use classes
 //   7. produce a LULC map; and
 //   8. assess classification accuracy using independent validation samples.
 
-// ============================================================================
 
 
 // ----------------------------------------------------------------------------
