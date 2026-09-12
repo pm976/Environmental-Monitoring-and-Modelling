@@ -1,4 +1,4 @@
-**Acknowledgements**
+# Acknowledgements
 
 Google Earth Engine Developers
 
@@ -6,7 +6,7 @@ Google Earth Engine Team
 
 Malak Malak Rangers and Traditional Owners from Daly River region
 
-**Introduction**
+# Introduction
 
 This practical activity demonstrates how geospatial monitoring and modelling techniques can be used to detect and analyse surface water. The outputs will provide baseline data for assessing changes in surface water extent and identifying water-dependent ecosystems. Through this activity, you will gain practical experience in applying remote-sensing methods to environmental monitoring and water-resource assessment.
 
@@ -434,7 +434,7 @@ Export.image.toDrive({
 
 // ============================================================================
 
-**Practical Questions**
+# Practical Questions
 
 1. How many Sentinel-2 images were used to create the median composite?
 2. What landscape characteristics are represented by NDVI, NDWI and MNDWI?
