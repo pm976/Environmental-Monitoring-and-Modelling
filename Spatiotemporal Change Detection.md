@@ -8,7 +8,7 @@ Malak Malak Rangers and Traditional Owners from Daly River region
 
 # Introduction
 
-This practical activity demonstrates how geospatial monitoring and modelling techniques can be used to detect and analyse surface water. The outputs will provide baseline data for assessing changes in surface water extent and identifying water-dependent ecosystems. Through this activity, you will gain practical experience in applying remote-sensing methods to environmental monitoring and water-resource assessment.
+This practical activity demonstrates how geospatial monitoring and modelling techniques can be used to detect and analyse land use and land cover (LULC). The resulting outputs provide baseline information for assessing changes in landscape extent and supporting ecological, hydrological and agricultural monitoring. Through this activity, you will gain practical experience in applying remote-sensing methods to environmental monitoring and natural-resource management.
 
 
 # Learning Outcomes
@@ -22,8 +22,8 @@ This practical activity demonstrates how geospatial monitoring and modelling tec
 
 # Task
 
-You have been provided a baseline habitat map of the Daly River Catchment, this is a product from the practical 2 activity, to estimate the latest changes in the spatial extent of habitats.  
-Collect recent Landsat imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new habitat map using Random Forest classification. Once you have the new habitat map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
+You have been provided a baseline landscape map of the Daly River Catchment, this is a product from the practical 2 activity, to estimate the latest changes in the spatial extent of landscapes.  
+Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new habitat map using Random Forest classification. Once you have the new LULC map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
 
 - description of the task
 - description of the methods you applied to complete the task
@@ -43,7 +43,7 @@ The change analysis among land cover and land use classes
 
 # Learning Objectives
 
-// By completing this practical, students will learn how to:
+By completing this practical, students will learn how to:
 //   1. load and display a study-area boundary in Google Earth Engine;
 //   2. filter and cloud-mask Sentinel-2 surface-reflectance imagery;
 //   3. create an annual median composite;
@@ -432,7 +432,7 @@ Export.image.toDrive({
   fileFormat: 'GeoTIFF'
 });
 
-// ============================================================================
+// --------------------------------------The End--------------------------------------------
 
 # Practical Questions
 
