@@ -107,7 +107,7 @@ var mndwi = sentinel2Median
 
 
 // ------------------------------------------------------------
-// 5. LOAD ELEVATION AND CALCULATE SLOPE
+// 5. LOAD ELEVATION 
 // ------------------------------------------------------------
 
 var fabdem = ee.Image(
@@ -120,10 +120,6 @@ var elevation = fabdem
   .select([0], ['Elevation'])
   .clip(roi);
 
-var slope = ee.Terrain
-  .slope(elevation)
-  .rename('Slope')
-  .clip(roi);
 
 Map.addLayer(
   elevation,
@@ -136,17 +132,6 @@ Map.addLayer(
   false
 );
 
-Map.addLayer(
-  slope,
-  {
-    min: 0,
-    max: 20,
-    palette: ['white', 'yellow', 'orange', 'red']
-  },
-  'Slope',
-  false
-);
-
 
 // ------------------------------------------------------------
 // 6. CREATE THE CLASSIFICATION IMAGE
@@ -156,7 +141,6 @@ var classificationImage = sentinel2Median
   .addBands(ndvi)
   .addBands(ndwi)
   .addBands(mndwi)
-  .addBands(slope)
   .addBands(elevation)
   .clip(roi);
 
@@ -172,7 +156,6 @@ var inputProperties = [
   'NDVI',
   'NDWI',
   'MNDWI',
-  'Slope',
   'Elevation'
 ];
 
