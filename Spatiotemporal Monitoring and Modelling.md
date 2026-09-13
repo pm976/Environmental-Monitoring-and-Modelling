@@ -79,6 +79,21 @@ var randomSeed = 42;
 var numberOfTrees = 150;
 var analysisScale = 10;
 
+// 12 LULC Classes
+
+1= Water
+2= Grass swamp
+3=Forested swamp
+4=Floodplain
+5= Floodplain woodland
+6= Mangrove
+7= Riparian vegetation
+8= Open forest
+9= Open woodland
+10= Farm
+11= Plantation
+12= Barren land or other landscape
+
 // ----------------------------------------------------------------------------
 
 # Results 
@@ -99,7 +114,7 @@ var analysisScale = 10;
 
 1. How many Sentinel-2 images were used to create the median composite?
 2. What landscape characteristics are represented by NDVI, NDWI and MNDWI?
-3. Why might elevation and slope improve a LULC classification?
+3. Why might elevation improve a LULC classification?
 4. How many reference features were used for training and validation?
 5. Which class has the highest and lowest user's accuracy? What is the main justification for that instance?
 6. Which class has the highest and lowest producer's accuracy? What is the main justification for that instance?
