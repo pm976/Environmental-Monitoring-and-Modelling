@@ -40,6 +40,8 @@ The change analysis among land cover and land use classes
 // Data: Sentinel-2 surface reflectance and FABDEM
 // Method: Supervised Random Forest classification
 // Platform: Google Earth Engine (JavaScript Code Editor)
+// Calculate Slope
+
 
 # Learning Objectives
 
