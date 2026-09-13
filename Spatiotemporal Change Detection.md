@@ -398,7 +398,7 @@ print(
 
 
 // ------------------------------------------------------------
-// 12. OPTIONAL: TRAINING ACCURACY
+// 12. TRAINING ACCURACY
 // ------------------------------------------------------------
 
 // Training accuracy is normally higher than validation accuracy.
