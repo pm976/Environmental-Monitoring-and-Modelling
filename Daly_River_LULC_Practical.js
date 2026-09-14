@@ -172,7 +172,7 @@ print(
 // The training data must contain a numeric field called "Id".
 
 var samples = ee.FeatureCollection(
-  'projects/ee-mollickporni/assets/TrainingSamples_SwampForest'
+  'projects/ee-mollickporni/assets/TrainingSamples'
 );
 
 print('Total number of sample features:', samples.size());
