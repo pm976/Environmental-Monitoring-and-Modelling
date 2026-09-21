@@ -63,7 +63,7 @@ By completing this practical, students will learn how to:
 
 // Replace these paths as your assets are stored in a different account.
 
-'''JavaScript 
+'''javascript 
 var boundaryAsset = 'projects/ee-mollickporni/assets/Daly';
 '''
 
