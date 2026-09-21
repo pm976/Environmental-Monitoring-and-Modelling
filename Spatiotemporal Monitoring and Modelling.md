@@ -62,7 +62,9 @@ By completing this practical, students will learn how to:
 // ----------------------------------------------------------------------------
 
 // Replace these paths as your assets are stored in a different account.
+'''Javascript 
 var boundaryAsset = 'projects/ee-mollickporni/assets/Daly';
+'''
 var demAsset = 'projects/ee-mollickporni/assets/FABDEM';
 var sampleAsset =
     'projects/ee-mollickporni/assets/TrainingSamples_SwampForest';
