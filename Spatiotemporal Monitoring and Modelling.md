@@ -66,8 +66,9 @@ By completing this practical, students will learn how to:
 ```javascript 
 var boundaryAsset = 'projects/ee-mollickporni/assets/Daly';
 ```
-
+```javascript 
 var demAsset = 'projects/ee-mollickporni/assets/FABDEM';
+```
 var sampleAsset =
     'projects/ee-mollickporni/assets/TrainingSamples_SwampForest';
 
