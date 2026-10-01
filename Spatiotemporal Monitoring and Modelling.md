@@ -91,11 +91,11 @@ By completing this practical, students will learn how to:
 
 
 
-// ----------------------------------------------------------------------------
-// STEP 1: DEFINE THE PRACTICAL SETTINGS
-// ----------------------------------------------------------------------------
 
-// Replace these paths as your assets are stored in a different account.
+# STEP 1: DEFINE THE PRACTICAL SETTINGS
+
+
+* Replace these paths as your assets are stored in a different account.
 
 ```javascript 
 var boundaryAsset = 'projects/ee-mollickporni/assets/Daly';
@@ -106,19 +106,189 @@ var demAsset = 'projects/ee-mollickporni/assets/FABDEM';
 var sampleAsset =
     'projects/ee-mollickporni/assets/TrainingSamples_SwampForest';
 
-// Study period: 1 September 2023 to 31 August 2024.
-// Earth Engine treats the ending date as exclusive; therefore, the ending date
-// below is 1 September 2024.
-var startDate = '2023-09-01';
-var endDate = '2024-09-01';
+# STEP 2: Pre-Processing of the Mapping (Cloud-Masking)
 
-var cloudPercentage = 30; 
-var trainingFraction = 0.70;
-var randomSeed = 42;
-var numberOfTrees = 150;
-var analysisScale = 10;
+* Sentinel-2 SCL classes for removing clouds
+// 0  = No data
+// 1  = Saturated or defective
+// 3  = Cloud shadow
+// 8  = Medium-probability cloud
+// 9  = High-probability cloud
+// 10 = Cirrus
+// 11 = Snow or ice
 
-// 12 LULC Classes
+```javascript
+function maskSentinel2(image) {
+  var scl = image.select('SCL');
+
+  var clearMask = scl.neq(0)
+    .and(scl.neq(1))
+    .and(scl.neq(3))
+    .and(scl.neq(8))
+    .and(scl.neq(9))
+    .and(scl.neq(10))
+    .and(scl.neq(11));
+```
+* Selecting bands from Sentinel-2 images to run cloud masks
+  
+```javascript
+
+return image
+    .updateMask(clearMask)
+    .select(
+      ['B2', 'B3', 'B4', 'B8', 'B11', 'B12'],
+      ['blue', 'green', 'red', 'nir', 'swir1', 'swir2']
+    )
+    .copyProperties(image, ['system:time_start']);
+}
+
+```
+# Step 3: Load Sentinel-2 Imagery
+
+* Study period: 1 September 2024 to 31 August 2025.
+
+Earth Engine treats the ending date as exclusive; therefore, the ending date below is 1 September 2025.
+
+```javascript
+
+var sentinel2 = ee.ImageCollection(
+  'COPERNICUS/S2_SR_HARMONIZED'
+)
+  .filterBounds(roi)
+  .filterDate('2024-09-01', '2025-09-01')
+  .filter(ee.Filter.lte('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .map(maskSentinel2);
+
+print('Number of Sentinel-2 images:', sentinel2.size());
+
+```
+
+* Create the annual median composite.
+
+```javascript
+
+var sentinel2Median = sentinel2
+  .median()
+  .clip(roi);
+
+var rgbVis = {
+  bands: ['red', 'green', 'blue'],
+  min: 0,
+  max: 3000,
+  gamma: 1.4
+};
+
+Map.addLayer(
+  sentinel2Median,
+  rgbVis,
+  'Sentinel-2 median composite',
+  true
+);
+
+```
+
+# Step 4:  Calculate Spectral Indices
+
+```javascript
+
+var ndvi = sentinel2Median
+  .normalizedDifference(['nir', 'red'])
+  .rename('NDVI');
+  
+```
+```javascript
+
+var ndwi = sentinel2Median
+  .normalizedDifference(['green', 'nir'])
+  .rename('NDWI');
+  
+```
+
+```javascript
+
+var mndwi = sentinel2Median
+  .normalizedDifference(['green', 'swir1'])
+  .rename('MNDWI');
+  
+```
+
+# Step 5: Load Elevation and Calculate Slope
+
+```javascript
+
+var fabdem = ee.Image(
+  'projects/ee-mollickporni/assets/FABDEM'
+);
+
+```
+
+* Select the DEM band (Your DEM data has only one band) and give it a consistent name.
+
+```javascript
+
+var elevation = fabdem
+  .select([0], ['Elevation'])
+  .clip(roi);
+  
+```
+
+```javascript
+
+Map.addLayer(
+  elevation,
+  {
+    min: 0,
+    max: 200,
+    palette: ['0015ff', '00ffff', 'ffff00', '8b4513']
+  },
+  'Elevation',
+  false
+);
+
+```
+
+# Step: 6 Create the Classification Image
+
+```javascript
+
+var classificationImage = sentinel2Median
+  .addBands(ndvi)
+  .addBands(ndwi)
+  .addBands(mndwi)
+  .addBands(elevation)
+  .clip(roi);
+
+```
+
+* Predictor variables used by the Random Forest classifier.
+
+```javascript
+
+var inputProperties = [
+  'blue',
+  'green',
+  'red',
+  'nir',
+  'swir1',
+  'swir2',
+  'NDVI',
+  'NDWI',
+  'MNDWI',
+  'Elevation'
+];
+
+```
+
+```javascript
+
+print(
+  'Classification image bands:',
+  classificationImage.bandNames()
+);
+
+```
+
+* 12 LULC Classes
 
 1= Water
 2= Grass swamp
@@ -133,13 +303,13 @@ var analysisScale = 10;
 11= Plantation
 12= Barren land or other landscape
 
-// ----------------------------------------------------------------------------
+# STEP 2: Pre-Processing of the LULC Mapping
 
 # Results 
 
 <img width="481" height="434" alt="image" src="https://github.com/user-attachments/assets/b0e6c61f-3ce7-4f2e-841c-193cb482993e" />
 
-// ----------------------------------------------------------------------------
+
 
 # Accuracy Assessment
 
