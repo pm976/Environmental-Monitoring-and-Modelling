@@ -247,7 +247,7 @@ Map.addLayer(
 
 ```
 
-# Step: 6 Create the Classification Image
+# Step 6: Create the Classification Image
 
 ```javascript
 
@@ -288,6 +288,144 @@ print(
 
 ```
 
+
+# Step 7: Load and Split the Reference Samples
+
+
+* The training data must contain a numeric field called "Id".
+
+```javascript
+
+var samples = ee.FeatureCollection(
+  'projects/ee-mollickporni/assets/Reference_Samples'
+);
+
+print('Total number of sample features:', samples.size());
+print('Sample attribute fields:', samples.first());
+
+```
+
+* Add a reproducible random value.
+
+```javascript
+
+var samplesWithRandom = samples.randomColumn(
+  'random',
+  42
+);
+
+```
+* Use 70% for training and 30% for validation.
+
+```javascript
+
+var trainingSamples = samplesWithRandom.filter(
+  ee.Filter.lt('random', 0.7)
+);
+
+```
+
+```javascript
+
+var validationSamples = samplesWithRandom.filter(
+  ee.Filter.gte('random', 0.7)
+);
+
+print('Training features:', trainingSamples.size());
+print('Validation features:', validationSamples.size());
+
+```
+
+* Show the class distribution.
+
+```javascript
+
+var trainingHistogram = trainingSamples.aggregate_histogram('Id');
+var validationHistogram = validationSamples.aggregate_histogram('Id');
+
+print('Training samples by class:', trainingHistogram);
+print('Validation samples by class:', validationHistogram);
+
+```
+
+
+# Step 8: Extract Pixel Values in the Reference Locations
+
+```javascript
+
+var trainingData = classificationImage.sampleRegions({
+  collection: trainingSamples,
+  properties: ['Id'],
+  scale: 10,
+  tileScale: 4,
+  geometries: false
+});
+
+print('Valid training pixels:', trainingData.size());
+
+```
+
+# Step 9: Train Random Forest Classifier
+
+```javascript
+
+var classifier = ee.Classifier
+  .smileRandomForest({
+    numberOfTrees: 150,
+    seed: 42
+  })
+  .train({
+    features: trainingData,
+    classProperty: 'Id',
+    inputProperties: inputProperties
+  });
+  
+```
+
+
+# Step 10: LULC Classification 
+
+```javascript
+
+var classifiedImage = classificationImage
+  .classify(classifier)
+  .rename('LULC');
+  
+```
+
+* Change this palette to match your class names and Id values. The following palette assumes class values from 0 to 12.
+
+```javascript
+
+var lulcPalette = [
+  '0000ff', // Class 0
+  '1f78b4', // Class 1
+  '00ffff', // Class 2
+  '9ecae1', // Class 3
+  'ffff00', // Class 4
+  'ff7f00', // Class 5
+  '33a02c', // Class 6
+  '006400', // Class 7
+  '004529', // Class 8
+  'c2e699', // Class 9
+  '8c510a', // Class 10
+  'bdbdbd', // Class 11
+  'f7f7f7'  // Class 12
+];
+
+Map.addLayer(
+  classifiedImage,
+  {
+    min: 0,
+    max: 12,
+    palette: lulcPalette
+  },
+  'Random Forest LULC classification',
+  true
+);
+
+```
+
 * 12 LULC Classes
 
 1= Water
@@ -303,19 +441,145 @@ print(
 11= Plantation
 12= Barren land or other landscape
 
-# STEP 2: Pre-Processing of the LULC Mapping
-
-# Results 
+* Results 
 
 <img width="481" height="434" alt="image" src="https://github.com/user-attachments/assets/b0e6c61f-3ce7-4f2e-841c-193cb482993e" />
 
 
+# Step 11: Validation
 
-# Accuracy Assessment
+
+* Extract predictor values at independent validation locations.
+
+```javascript
+
+var validationData = classificationImage.sampleRegions({
+  collection: validationSamples,
+  properties: ['Id'],
+  scale: 10,
+  tileScale: 4,
+  geometries: false
+});
+
+print('Valid validation pixels:', validationData.size());
+
+```
+
+* Apply the trained classifier to the validation data.
+
+```javascript
+
+var validatedData = validationData.classify(classifier);
+
+```
+* Obtain the class values in ascending order.  This helps identify the order of rows and columns in the matrix.
+
+```javascript
+
+var classOrder = ee.List(
+  samples.aggregate_array('Id')
+).distinct().sort();
+
+print('Class order used in accuracy results:', classOrder);
+
+```
+
+* Create the validation confusion matrix. Rows and columns follow the class order as same as the "Id" Column in your Reference_Samples shapefile (Assest) .
+
+```javascript
+
+var confusionMatrix = validatedData.errorMatrix(
+  'Id',
+  'classification',
+  classOrder
+);
+
+print('Validation confusion matrix:', confusionMatrix);
+
+print(
+  'Overall accuracy:',
+  confusionMatrix.accuracy()
+);
+
+print(
+  "User's accuracy:",
+  confusionMatrix.consumersAccuracy()
+);
+
+print(
+  "Producer's accuracy:",
+  confusionMatrix.producersAccuracy()
+);
+
+print(
+  'Kappa coefficient:',
+  confusionMatrix.kappa()
+);
+
+```
+* Accuracy Assessment
 
 <img width="556" height="1218" alt="Accuracy" src="https://github.com/user-attachments/assets/61f13215-46a5-4137-834a-7694d7908a1f" />
 
-// ----------------------------------------------------------------------------
+
+# Step 12: Training Accuracy 
+
+* Training accuracy is normally higher than validation accuracy.
+
+** Please Note: It should not be reported as the main map accuracy.
+
+```javascript
+
+var trainingConfusionMatrix = classifier.confusionMatrix();
+
+print(
+  'Training confusion matrix:',
+  trainingConfusionMatrix
+);
+
+print(
+  'Training overall accuracy:',
+  trainingConfusionMatrix.accuracy()
+);
+
+```
+
+# Step 13:  Export as Asset
+
+```javascript
+
+Export.image.toAsset({
+  image: filteredClassifiedImage,  // The filtered classified image
+  description: 'WetlandMapKFold_2024_25_CombinedNew_v7', // Task name
+  assetId: 'projects/ee-mollickporni/assets/WetlandMapKFold_2024_25_CombinedNew_v7', // Replace 'your_username' with your GEE username
+  scale: 10,  // Set spatial resolution (adjust as needed)
+  region: daly.geometry(),  // Define the export region
+  maxPixels: 1e13,  // Allow large exports
+  crs: 'EPSG:3577'  // Set projection to GDA94 Australian Albers
+});
+
+```
+
+* If you want to export the LULC map to your Google Drive (Optional).
+
+```javascript
+
+Export.image.toDrive({
+  image: classifiedImage.toByte(),
+  description: 'Daly_LULC_2024_2025',
+  folder: 'GEE_Exports', (you can change to any other names)
+  fileNamePrefix: 'Daly_LULC_2024_2025',
+  region: roi,
+  scale: 10,
+  maxPixels: 1e13,
+  fileFormat: 'GeoTIFF'
+});
+
+```
+
+
+
+
 
 // --------------------------------------The End--------------------------------------------
 
