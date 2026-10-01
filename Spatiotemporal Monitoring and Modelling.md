@@ -76,10 +76,6 @@ Select file extensions - shp, dbf, prj, shx, cpg, sbn (6 files)
 
 Select- Upload
 
-// Method: Supervised Random Forest classification
-// Platform: Google Earth Engine (JavaScript Code Editor)
-// Calculate Slope
-
 
 # Learning Objectives
 
