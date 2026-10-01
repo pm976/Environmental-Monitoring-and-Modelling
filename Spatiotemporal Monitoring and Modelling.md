@@ -549,13 +549,14 @@ print(
 ```javascript
 
 Export.image.toAsset({
-  image: filteredClassifiedImage,  // The filtered classified image
-  description: 'Daly_LULCMap_2024_2025', // Map name
-  assetId: 'projects/ee-mollickporni/assets/Daly_LULCMap_2024_2025', # Replace 'your_username' with your GEE username
-  scale: 10,  // Set spatial resolution (adjust as needed)
-  region: daly.geometry(),  // Define the export region
-  maxPixels: 1e13,  // Allow large exports
-  crs: 'EPSG:3577'  // Set projection to GDA94 Australian Albers
+  image: classifiedImage,
+  description: 'Daly_LULCMap_2024_2025',
+  assetId: 'projects/ee-mollickporni/assets/Daly_LULCMap_2024_2025',
+  region: roi,
+  crs: 'EPSG:3577',
+  maxPixels: 1e13,
+  scale: 10,
+  pyramidingPolicy: {'.default': 'mode'}
 });
 
 ```
