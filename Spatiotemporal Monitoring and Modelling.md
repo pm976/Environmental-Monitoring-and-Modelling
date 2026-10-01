@@ -577,7 +577,7 @@ Export.image.toDrive({
 
 ```
 
-# Stage 2: Calculate Area (Km2)
+# Stage 2: Calculate Area (km²)
 
 * Define the region of interest
 
@@ -672,7 +672,7 @@ print('Class Area (sq meters):', classArea);
 7. Which class has the highest and lowest producer's accuracy? What is the main justification for that instance?
 8. What does the overall accuracy indicate about the resulting map?
 9. Identify the change detection between 01 Sep 2017- 31 Aug 2018 and 01 Sep 2024- 31 Aug 2025
-10. Report the change of the LULC area, i.e., highest and lowest in sq km
+10. Report the most of the LULC change area, i.e., highest and lowest in km²
 
 # References
 
