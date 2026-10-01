@@ -1,4 +1,4 @@
-# Acknowledgements
+<img width="235" height="110" alt="image" src="https://github.com/user-attachments/assets/accf59fd-96d3-42b0-b72e-5afaf1dc020d" /># Acknowledgements
 
 Google Earth Engine Developers
 
@@ -23,21 +23,59 @@ This practical activity demonstrates how geospatial monitoring and modelling tec
 # Task
 
 You have been provided a baseline landscape map of the Daly River Catchment, this is a product from the practical 2 activity, to estimate the latest changes in the spatial extent of landscapes.  
-Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new habitat map using Random Forest classification. Once you have the new LULC map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
+Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new land use land cover (LULC) map using Random Forest classification in Google Earth Engine (GEE) platform. Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
 
 - description of the task
 - description of the methods you applied to complete the task
 - description of the results obtained
 - discuss the results you agree and/or disagree (and why)
-- discuss how you think the results can be improved
+- if you do not agree discuss how you think the results can be improved
 - conclusion 
 
 # Workflow
 
 The change analysis among land cover and land use classes
 
-// Study area: Daly River catchment, Northern Territory, Australia
-// Data: Sentinel-2 surface reflectance and FABDEM
+Add Study Site: Daly River catchment, Northern Territory, Australia
+
+Import Study site (which I have provided, named "DalyRiver_Catchment") Shapefile 
+
+Go to Assests - New - Table Upload - Shapefiles
+
+See this below snapshot
+
+Step 1: <img width="235" height="293" alt="image" src="https://github.com/user-attachments/assets/7c839557-3207-4cda-84f2-c7cb9b45e9fb" />
+
+Step 2: <img width="407" height="547" alt="image" src="https://github.com/user-attachments/assets/e61d9860-391f-4199-9b5d-da003c245011" />
+
+Select- Upload
+
+Select file extensions - shp, dbf, prj, shx, cpg, sbn (6 files)
+
+Add Data: DEM datasets FABDEM
+
+Import DEM data (which I have provided, named "FABDEM") GeoTIFF file
+
+Go to Assests - New - Image Upload - GeoTIFF 
+
+Step 1: <img width="235" height="293" alt="image" src="https://github.com/user-attachments/assets/7c839557-3207-4cda-84f2-c7cb9b45e9fb" />
+
+Step 2: <img width="407" height="517" alt="image" src="https://github.com/user-attachments/assets/852ce452-88cb-40cb-ac2f-53283298ee4f" />
+
+Add Data: Reference Samples 
+
+Import Reference samples (which I have provided, named "Reference_Samples") GeoTIFF file
+
+Go to Assests - New - Table Upload - Shapefiles
+
+Step 1: <img width="235" height="293" alt="image" src="https://github.com/user-attachments/assets/7c839557-3207-4cda-84f2-c7cb9b45e9fb" />
+
+Step 2: <img width="407" height="547" alt="image" src="https://github.com/user-attachments/assets/e61d9860-391f-4199-9b5d-da003c245011" />
+
+Select file extensions - shp, dbf, prj, shx, cpg, sbn (6 files)
+
+Select- Upload
+
 // Method: Supervised Random Forest classification
 // Platform: Google Earth Engine (JavaScript Code Editor)
 // Calculate Slope
@@ -126,4 +164,6 @@ var analysisScale = 10;
 7. What does the overall accuracy indicate about the resulting map?
 8. What changes occur when the number of Random Forest trees is modified?
 
+# References
 
+Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C., & Neal, J. (2022). A 30 m global map of elevation with forests and buildings removed. Environmental Research Letters, 17(2), 024016. https://doi.org/DOI 10.1088/1748-9326/ac4d4f 
