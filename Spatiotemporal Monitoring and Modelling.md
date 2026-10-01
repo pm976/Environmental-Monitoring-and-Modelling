@@ -550,8 +550,8 @@ print(
 
 Export.image.toAsset({
   image: filteredClassifiedImage,  // The filtered classified image
-  description: 'WetlandMapKFold_2024_25_CombinedNew_v7', // Task name
-  assetId: 'projects/ee-mollickporni/assets/WetlandMapKFold_2024_25_CombinedNew_v7', // Replace 'your_username' with your GEE username
+  description: 'Daly_LULCMap_2024_2025', // Map name
+  assetId: 'projects/ee-mollickporni/assets/Daly_LULCMap_2024_2025', # Replace 'your_username' with your GEE username
   scale: 10,  // Set spatial resolution (adjust as needed)
   region: daly.geometry(),  // Define the export region
   maxPixels: 1e13,  // Allow large exports
@@ -566,9 +566,9 @@ Export.image.toAsset({
 
 Export.image.toDrive({
   image: classifiedImage.toByte(),
-  description: 'Daly_LULC_2024_2025',
+  description: 'Daly_LULCMap_2024_2025',
   folder: 'GEE_Exports', (you can change to any other names)
-  fileNamePrefix: 'Daly_LULC_2024_2025',
+  fileNamePrefix: 'Daly_LULCMap_2024_2025',
   region: roi,
   scale: 10,
   maxPixels: 1e13,
@@ -577,22 +577,102 @@ Export.image.toDrive({
 
 ```
 
+# Stage 2: Calculate Area (Km2)
 
+* Define the region of interest
 
+```javascript
 
+var assetAddress = 'projects/ee-mollickporni/assets/DalyRiver_Catchment';
+var daly = ee.FeatureCollection(assetAddress);
+
+```
+
+* Load the classified image you exported in Stage 1
+
+```javascript
+
+var classifiedImage = ee.Image('projects/ee-mollickporni/assets/Daly_LULCMap_2024_2025'); # Change to your Asset file
+
+```
+
+* Define the scale for area calculation
+
+```javascript
+
+var scale = 10; // Set to match the resolution of the classification
+
+```
+
+* Calculate area per class
+
+```javascript
+
+var areaImage = ee.Image.pixelArea().addBands(classifiedImage);
+
+```
+* Check the band names of the classified image
+
+```javascript
+
+print('Classified Image Bands:', classifiedImage.bandNames());
+
+```
+
+* Ensure that the band name is correctly referenced as 'classification'
+
+```javascript
+
+var classBand = classifiedImage.select('classification');
+
+```
+
+* Calculate area per class
+
+```javascript
+
+var areaImage = ee.Image.pixelArea().addBands(classBand);
+
+```
+
+* Use reduceRegion to calculate the total area for each class
+
+```javascript
+
+var classArea = areaImage.reduceRegion({
+  reducer: ee.Reducer.sum().group({
+    groupField: 1, // Set to 0 if there's only one band
+    groupName: 'classification'
+  }),
+  geometry: daly.geometry(),
+  scale: scale,
+  maxPixels: 1e13
+});
+
+```
+
+* Print the class areas
+
+```javascript
+
+print('Class Area (sq meters):', classArea);
+
+```
 
 // --------------------------------------The End--------------------------------------------
 
 # Practical Questions
 
-1. How many Sentinel-2 images were used to create the median composite?
-2. What landscape characteristics are represented by NDVI, NDWI and MNDWI?
-3. Why might elevation improve a LULC classification?
-4. How many reference features were used for training and validation?
-5. Which class has the highest and lowest user's accuracy? What is the main justification for that instance?
-6. Which class has the highest and lowest producer's accuracy? What is the main justification for that instance?
-7. What does the overall accuracy indicate about the resulting map?
-8. What changes occur when the number of Random Forest trees is modified?
+1. Try to run one of the years in past, i.e., 01 Sep 2017- 31 Aug 2018
+2. How many Sentinel-2 images were used to create the median composite?
+3. What landscape characteristics are represented by NDVI, NDWI and MNDWI?
+4. Why might elevation improve a LULC classification?
+5. How many reference features were used for training and validation?
+6. Which class has the highest and lowest user's accuracy? What is the main justification for that instance?
+7. Which class has the highest and lowest producer's accuracy? What is the main justification for that instance?
+8. What does the overall accuracy indicate about the resulting map?
+9. Identify the change detection between 01 Sep 2017- 31 Aug 2018 and 01 Sep 2024- 31 Aug 2025
+10. Report the change of the LULC area, i.e., highest and lowest in sq km
 
 # References
 
