@@ -22,7 +22,7 @@ This practical activity demonstrates how geospatial monitoring and modelling tec
 - Transition between cover classes
 - Estimate changes in habitats using a baseline data
 
-# Task
+# Tasks
 
 You have been provided a baseline landscape map of the Daly River Catchment, this is a product from the practical 2 activity, to estimate the latest changes in the spatial extent of landscapes.  
 Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new land use land cover (LULC) map using Random Forest classification in Google Earth Engine (GEE) platform. Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
@@ -34,9 +34,25 @@ Collect Sentinel-2 imagery (this should be surface reflectance product) of the s
 - if you do not agree discuss how you think the results can be improved
 - conclusion 
 
-# Workflow
 
-The change analysis among land cover and land use classes
+# Learning Objectives
+
+By completing this practical, students will learn how to:
+//   1. load and display a study-area boundary in Google Earth Engine;
+//   2. filter and cloud-mask Sentinel-2 surface-reflectance imagery;
+//   3. create an annual median composite;
+//   4. calculate NDVI, NDWI and MNDWI;
+//   5. add elevation and slope as predictor variables;
+//   6. train a Random Forest classifier;
+//   7. produce a LULC map; and
+//   8. assess classification accuracy using independent validation samples.
+
+
+# Workflows
+
+The change area analysis of LULC classes are conducted in two different stages minimise the computational resource in the non-commercial GEE account, i.e., Stage 1 and Stage 2
+
+# Stage 1
 
 Add Study Site: Daly River catchment, Northern Territory, Australia
 
@@ -79,22 +95,8 @@ Select file extensions - shp, dbf, prj, shx, cpg, sbn (6 files)
 Select- Upload
 
 
-# Learning Objectives
 
-By completing this practical, students will learn how to:
-//   1. load and display a study-area boundary in Google Earth Engine;
-//   2. filter and cloud-mask Sentinel-2 surface-reflectance imagery;
-//   3. create an annual median composite;
-//   4. calculate NDVI, NDWI and MNDWI;
-//   5. add elevation and slope as predictor variables;
-//   6. train a Random Forest classifier;
-//   7. produce a LULC map; and
-//   8. assess classification accuracy using independent validation samples.
-
-
-
-
-# STEP 1: DEFINE THE PRACTICAL SETTINGS
+# STEP 1: Define the Practical Settings
 
 
 * Replace these paths as your assets are stored in a different account.
@@ -580,7 +582,9 @@ Export.image.toDrive({
 
 ```
 
-# Stage 2: Calculate LULC Class Areas (Hectres)
+# Stage 2
+
+# Calculate LULC Class Areas (Hectres)
 
 * Define the region of interest
 
@@ -703,6 +707,20 @@ var classAreasHectares = ee.List(classArea.get('groups')).map(function(item) {
 ```javascript
 
 print('Class Area (hectare):', classAreasHectares);
+
+```
+
+* Export to GoogleDrive
+
+```javascript
+
+Export.table.toDrive({
+  collection: classAreasHectares,
+  description: 'Daly_LULC_2023_2024_Areas',
+  folder: 'GEE_Exports', // Change to your Google Drive folder
+  fileNamePrefix: 'Daly_LULC_2023_2024_Areas',
+  fileFormat: 'CSV'
+});
 
 ```
 
