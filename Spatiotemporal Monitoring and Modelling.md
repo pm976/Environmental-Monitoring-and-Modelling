@@ -691,7 +691,7 @@ print('Class Area (sq meters):', classArea);
 
 ```
 
-* Convert areas to hectares (1 hectare = 10,000 sq meters)
+* Convert areas to hectares (1 hectare = 10,000 m²)
 
 ```javascript
 
