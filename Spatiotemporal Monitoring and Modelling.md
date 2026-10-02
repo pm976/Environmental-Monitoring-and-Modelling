@@ -24,28 +24,38 @@ This practical activity demonstrates how geospatial monitoring and modelling tec
 
 # Tasks
 
-You have been provided a baseline landscape map of the Daly River Catchment, this is a product from the practical 2 activity, to estimate the latest changes in the spatial extent of landscapes.  
-Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new land use land cover (LULC) map using Random Forest classification in Google Earth Engine (GEE) platform. Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the cover types. Critically evaluate your results, including:
+You have been provided a baseline LULC map of the Daly River Catchment for hydrological year 2024-2025, your main task to develop a LULC map of the Daly River Catchment for hydrological year 2017-2018 using the datasets (i.e., Study site, Reference samples, DEM) which are provided.
 
-- description of the task
-- description of the methods you applied to complete the task
-- description of the results obtained
-- discuss the results you agree and/or disagree (and why)
-- if you do not agree discuss how you think the results can be improved
-- conclusion 
+* Background of tasks
+
+Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new LULC map using Random Forest classification in Google Earth Engine (GEE) platform. Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the land cover types. Critically evaluate your results, including:
+
+- Description of the task
+- Description of the methods you applied to complete the task
+- Description of the results obtained
+- Discuss the results you agree and/or disagree (and why)
+- If you do not agree discuss how you think the results can be improved with reference 
+- Calculate area of each class from your classified map
+- Report change among LULC classes based on past and present classified maps (from 2017 to 2025)
+- Try to justify why the change happened based on existing literature (mostly focus on tropical systems, start from Daly River related literature) 
+- Conclusion (conclude with key summary of your work and any recommendations for others who want to use this method)
 
 
 # Learning Objectives
 
 By completing this practical, students will learn how to:
-//   1. load and display a study-area boundary in Google Earth Engine;
-//   2. filter and cloud-mask Sentinel-2 surface-reflectance imagery;
-//   3. create an annual median composite;
-//   4. calculate NDVI, NDWI and MNDWI;
-//   5. add elevation and slope as predictor variables;
-//   6. train a Random Forest classifier;
-//   7. produce a LULC map; and
-//   8. assess classification accuracy using independent validation samples.
+  1. Load and display a study-area boundary in Google Earth Engine;
+  2. Filter and cloud-mask Sentinel-2 surface-reflectance imagery;
+  3. Create an annual median composite;
+  4. Understand what these indices NDVI, NDWI and MNDWI are and why they are important for classification;
+  5. Calculate NDVI, NDWI and MNDWI;
+  6. Understand what these indices NDVI, NDWI and MNDWI are and why they are important for classification;
+  7. Add elevation and slope as predictor variables;
+  8. train a Random Forest classifier;
+  9. Develop a LULC map;
+  10. Assess classification accuracy using independent validation samples;
+  11. Calculate area for each land cover class; and 
+  12. Learn how you can confidently do change detection analysis for LULC
 
 
 # Workflows
@@ -450,7 +460,7 @@ Map.addLayer(
 <img width="481" height="434" alt="image" src="https://github.com/user-attachments/assets/b0e6c61f-3ce7-4f2e-841c-193cb482993e" />
 
 
-# Step 11: Validation
+# Step 11: Validation of Classified Map
 
 
 * Extract predictor values at independent validation locations.
