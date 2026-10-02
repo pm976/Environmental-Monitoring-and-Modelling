@@ -1,4 +1,6 @@
-<img width="235" height="110" alt="image" src="https://github.com/user-attachments/assets/accf59fd-96d3-42b0-b72e-5afaf1dc020d" /># Acknowledgements
+<img width="235" height="110" alt="image" src="https://github.com/user-attachments/assets/accf59fd-96d3-42b0-b72e-5afaf1dc020d" />
+
+# Acknowledgements
 
 Google Earth Engine Developers
 
@@ -578,13 +580,13 @@ Export.image.toDrive({
 
 ```
 
-# Stage 2: Calculate Area (km²)
+# Stage 2: Calculate LULC Class Areas (Hectres)
 
 * Define the region of interest
 
 ```javascript
 
-var assetAddress = 'projects/ee-mollickporni/assets/DalyRiver_Catchment';
+var assetAddress = 'projects/ee-mollickporni/assets/DalyRiver_Catchment'; # Change to your Asset file location
 var daly = ee.FeatureCollection(assetAddress);
 
 ```
@@ -600,7 +602,6 @@ var classifiedImage = ee.Image('projects/ee-mollickporni/assets/Daly_LULCMap_202
 * Define the scale for area calculation
 
 ```javascript
-
 var scale = 10; // Set to match the resolution of the classification
 
 ```
@@ -612,6 +613,7 @@ var scale = 10; // Set to match the resolution of the classification
 var areaImage = ee.Image.pixelArea().addBands(classifiedImage);
 
 ```
+
 * Check the band names of the classified image
 
 ```javascript
@@ -620,11 +622,10 @@ print('Classified Image Bands:', classifiedImage.bandNames());
 
 ```
 
-* Ensure that the band name is correctly referenced as 'classification'
-
 ```javascript
 
-var classBand = classifiedImage.select('classification');
+* Ensure that the band name is correctly referenced as 'LULC'
+var classBand = classifiedImage.select('LULC');
 
 ```
 
@@ -643,7 +644,7 @@ var areaImage = ee.Image.pixelArea().addBands(classBand);
 var classArea = areaImage.reduceRegion({
   reducer: ee.Reducer.sum().group({
     groupField: 1, // Set to 0 if there's only one band
-    groupName: 'classification'
+    groupName: 'LULC'
   }),
   geometry: daly.geometry(),
   scale: scale,
@@ -652,11 +653,56 @@ var classArea = areaImage.reduceRegion({
 
 ```
 
+```javascript
+
+* Print the class areas
+
+```javascript
+
+// print('Class Area (sq meters):', classArea);
+
+```
+
+*  Use reduceRegion to calculate the total area for each class
+
+```javascript
+
+// var classArea = areaImage.reduceRegion({
+//   reducer: ee.Reducer.sum().group({
+//     groupField: 2,
+//     groupName: 'classification'
+//   }),
+//   geometry: daly.geometry(),
+//   scale: 10,
+//   maxPixels: 1e13
+// });
+
+```
+
 * Print the class areas
 
 ```javascript
 
 print('Class Area (sq meters):', classArea);
+
+```
+
+* Convert areas to hectares (1 hectare = 10,000 sq meters)
+
+```javascript
+
+var classAreasHectares = ee.List(classArea.get('groups')).map(function(item) {
+  var area = ee.Dictionary(item);
+  return area.set('area_ha', ee.Number(area.get('sum')).divide(10000)); // Dividing by 10,000 for hectares
+});
+
+```
+
+* Print the class areas in hectare
+
+```javascript
+
+print('Class Area (hectare):', classAreasHectares);
 
 ```
 
