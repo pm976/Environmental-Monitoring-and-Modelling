@@ -17,10 +17,10 @@ This practical activity demonstrates how geospatial monitoring and modelling tec
 
 - Replicate existing techniques to prepare data for classification
 - Apply existing trained Random Forest classification model to new data
-- Reclassify classification images
-- Identify changed areas
-- Transition between cover classes
-- Estimate changes in habitats using a baseline data
+- Classify satellite images based on various landscape patterns
+- Identify changed areas 
+- Transition between land cover classes from past to present
+- Estimate changes in land cover using a baseline data
 
 # Tasks
 
@@ -37,25 +37,26 @@ Collect Sentinel-2 imagery (this should be surface reflectance product) of the s
 - If you do not agree discuss how you think the results can be improved with reference 
 - Calculate area of each class from your classified map
 - Report change among LULC classes based on past and present classified maps (from 2017 to 2025)
-- Try to justify why the change happened based on existing literature (mostly focus on tropical systems, start from Daly River related literature) 
-- Conclusion (conclude with key summary of your work and any recommendations for others who want to use this method)
+- Try to justify why the change happened based on existing literature (mostly focus on global tropical systems, then narrow down to Daly River and NT based references) 
+- Conclusion (conclude with key summary of your work and any recommendations for others who want to use these methods and results)
 
 
 # Learning Objectives
 
-By completing this practical, students will learn how to:
-  1. Load and display a study-area boundary in Google Earth Engine;
-  2. Filter and cloud-mask Sentinel-2 surface-reflectance imagery;
-  3. Create an annual median composite;
-  4. Understand what these indices NDVI, NDWI and MNDWI are and why they are important for classification;
-  5. Calculate NDVI, NDWI and MNDWI;
-  6. Understand what these indices NDVI, NDWI and MNDWI are and why they are important for classification;
-  7. Add elevation and slope as predictor variables;
-  8. train a Random Forest classifier;
-  9. Develop a LULC map;
-  10. Assess classification accuracy using independent validation samples;
-  11. Calculate area for each land cover class; and 
-  12. Learn how you can confidently do change detection analysis for LULC
+By completing this practical, students will be able to:
+
+1.	Load and display a study-area boundary in Google Earth Engine.
+2.	Filter and cloud-mask Sentinel-2 surface reflectance imagery.
+3.	Create an annual median composite.
+4.	Explain what NDVI, NDWI and MNDWI represent and why they are useful for LULC classification.
+5.	Calculate NDVI, NDWI and MNDWI from Sentinel-2 imagery.
+6.	Incorporate elevation and slope as predictor variables.
+7.	Train a Random Forest classifier using reference samples.
+8.	Generate a land use and land cover (LULC) map.
+9.	Assess classification accuracy using independent validation samples.
+10.	Calculate the area of each LULC class in hectares.
+11.	Compare LULC maps from different periods to quantify changes in class areas.
+12.	Interpret LULC changes while considering classification accuracy and potential sources of uncertainty.
 
 
 # Workflows
@@ -677,30 +678,6 @@ var classArea = areaImage.reduceRegion({
 
 ```
 
-*  Use reduceRegion to calculate the total area for each class
-
-```javascript
-
-// var classArea = areaImage.reduceRegion({
-//   reducer: ee.Reducer.sum().group({
-//     groupField: 2,
-//     groupName: 'classification'
-//   }),
-//   geometry: daly.geometry(),
-//   scale: 10,
-//   maxPixels: 1e13
-// });
-
-```
-
-* Print the class areas
-
-```javascript
-
-print('Class Area (sq meters):', classArea);
-
-```
-
 * Convert areas to hectares (1 hectare = 10,000 m²)
 
 ```javascript
@@ -738,16 +715,16 @@ Export.table.toDrive({
 
 # Practical Questions
 
-1. Try to run one of the years in past, i.e., 01 Sep 2017- 31 Aug 2018
-2. How many Sentinel-2 images were used to create the median composite?
-3. What landscape characteristics are represented by NDVI, NDWI and MNDWI?
-4. Why might elevation improve a LULC classification?
-5. How many reference features were used for training and validation?
-6. Which class has the highest and lowest user's accuracy? What is the main justification for that instance?
-7. Which class has the highest and lowest producer's accuracy? What is the main justification for that instance?
-8. What does the overall accuracy indicate about the resulting map?
-9. Identify the change detection between 01 Sep 2017- 31 Aug 2018 and 01 Sep 2024- 31 Aug 2025
-10. Report the most of the LULC change area, i.e., highest and lowest in km²
+1.	Run the LULC classification for the historical period 1 September 2017–31 August 2018.
+2.	How many Sentinel-2 images were used to generate the median composite for this period after applying the filtering criteria?
+3.	What landscape characteristics do NDVI, NDWI and MNDWI represent, and how can these indices help distinguish different LULC classes?
+4.	Why might including elevation improve the accuracy of a LULC classification?
+5.	How many reference features were used for training and validation, respectively? Report the number for each class and the total.
+6.	Which classes have the highest and lowest user’s accuracy? Explain the likely reasons for these results, referring to misclassification patterns in the confusion matrix.
+7.	Which classes have the highest and lowest producer’s accuracy? Explain the likely reasons for these results, referring to misclassification patterns in the confusion matrix.
+8.	What does the overall accuracy indicate about the resulting LULC map?
+9.	Compare the LULC maps for 1 September 2017-31 August 2018 and 1 September 2024-31 August 2025. How much did the area of each class change, and which classes experienced the greatest and smallest absolute changes?
+10.	Present a table showing the area of each LULC class in both periods, the net change in hectares (ha) and the percentage change relative to 2017–2018. Identify the classes with the largest increase and largest decrease in area.
 
 # References
 
