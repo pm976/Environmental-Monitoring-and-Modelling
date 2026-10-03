@@ -24,7 +24,7 @@ You have been provided a baseline LULC map of the Daly River Catchment for hydro
 
 * Background of tasks
 
-Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new LULC map using Random Forest classification in Google Earth Engine (GEE) platform. Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the land cover types. Critically evaluate your results, including:
+Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new LULC map using Random Forest classification in Google Earth Engine (GEE) platform (Mollick et al., 2025). Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the land cover types. Critically evaluate your results, including:
 
 - Description of the task
 - Description of the methods you applied to complete the task
@@ -557,6 +557,8 @@ print(
 
 # Step 13:  Export as Asset
 
+* Export as your GEE Asset for further analysis
+
 ```javascript
 
 Export.image.toAsset({
@@ -572,7 +574,7 @@ Export.image.toAsset({
 
 ```
 
-* If you want to export the LULC map to your Google Drive (Optional).
+* (Optional) If you want to export the LULC map to your Google Drive.
 
 ```javascript
 
@@ -725,3 +727,5 @@ Export.table.toDrive({
 # References
 
 Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C., & Neal, J. (2022). A 30 m global map of elevation with forests and buildings removed. Environmental Research Letters, 17(2), 024016. DOI 10.1088/1748-9326/ac4d4f. URL: https://iopscience.iop.org/article/10.1088/1748-9326/ac4d4f/meta
+
+Mollick, Porni and Mello, Kaline de and Irvine, Dylan J. and Rangers, Malak Malak and Garcia, Erica A. and dos Santos Junior, Edimilson Rodrigues and Crabbe, Richard A., Integrating Indigenous Knowledge, Multi-Sensor Remote Sensing, and Machine Learning for Mapping Wetlands in Northern Australia. Available at SSRN: https://ssrn.com/abstract=5293856 or http://dx.doi.org/10.2139/ssrn.5293856
