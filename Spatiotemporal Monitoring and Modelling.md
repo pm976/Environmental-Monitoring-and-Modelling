@@ -4,8 +4,6 @@
 
 Google Earth Engine Developers
 
-Google Earth Engine Team
-
 Malak Malak Rangers and Traditional Owners from Daly River region
 
 # Introduction
@@ -728,4 +726,4 @@ Export.table.toDrive({
 
 # References
 
-Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C., & Neal, J. (2022). A 30 m global map of elevation with forests and buildings removed. Environmental Research Letters, 17(2), 024016. https://doi.org/DOI 10.1088/1748-9326/ac4d4f 
+Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C., & Neal, J. (2022). A 30 m global map of elevation with forests and buildings removed. Environmental Research Letters, 17(2), 024016. DOI 10.1088/1748-9326/ac4d4f. URL: https://iopscience.iop.org/article/10.1088/1748-9326/ac4d4f/meta
