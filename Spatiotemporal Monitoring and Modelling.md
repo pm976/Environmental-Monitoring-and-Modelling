@@ -24,7 +24,7 @@ You have been provided a baseline LULC map of the Daly River Catchment for hydro
 
 * Background of tasks
 
-Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new LULC map using Random Forest classification in Google Earth Engine (GEE) platform (Mollick et al., 2025). Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and slope using elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the land cover types. Critically evaluate your results, including:
+Collect Sentinel-2 imagery (this should be surface reflectance product) of the study area with acquisition dates similar to baseline data and produce a new LULC map using Random Forest classification in Google Earth Engine (GEE) platform (Mollick et al., 2025). Before mapping LULC you have pre-processing stages where you calculate indices using Sentinel-2 spectral bands and elevation data from Forest and Building Removed DEM (FABDEM) (Hawker et al., 2022). Once you have the new LULC map, estimate changes in the spatial extent of the land cover types. Critically evaluate your results, including:
 
 - Description of the task
 - Description of the methods you applied to complete the task
@@ -46,7 +46,7 @@ By completing this practical, students will be able to:
 3.	Create an annual median composite.
 4.	Explain what NDVI, NDWI and MNDWI represent and why they are useful for LULC classification.
 5.	Calculate NDVI, NDWI and MNDWI from Sentinel-2 imagery.
-6.	Incorporate elevation and slope as predictor variables.
+6.	Incorporate elevation as predictor variables.
 7.	Train a Random Forest classifier using reference samples.
 8.	Generate a land use and land cover (LULC) map.
 9.	Assess classification accuracy using independent validation samples.
@@ -65,7 +65,7 @@ Add Study Site: Daly River catchment, Northern Territory, Australia
 
 Import Study site (which I have provided, named "DalyRiver_Catchment") Shapefile 
 
-Go to Assests - New - Table Upload - Shapefiles
+Go to Assets - New - Table Upload - Shapefiles
 
 See this below snapshot
 
@@ -81,7 +81,7 @@ Add Data: DEM datasets FABDEM
 
 Import DEM data (which I have provided, named "FABDEM") GeoTIFF file
 
-Go to Assests - New - Image Upload - GeoTIFF 
+Go to Assets - New - Image Upload - GeoTIFF 
 
 Step 1: <img width="235" height="293" alt="image" src="https://github.com/user-attachments/assets/7c839557-3207-4cda-84f2-c7cb9b45e9fb" />
 
@@ -91,7 +91,7 @@ Add Data: Reference Samples
 
 Import Reference samples (which I have provided, named "Reference_Samples") GeoTIFF file
 
-Go to Assests - New - Table Upload - Shapefiles
+Go to Assets - New - Table Upload - Shapefiles
 
 Step 1: <img width="235" height="293" alt="image" src="https://github.com/user-attachments/assets/7c839557-3207-4cda-84f2-c7cb9b45e9fb" />
 
@@ -158,7 +158,7 @@ return image
 
 * Study period: 1 September 2024 to 31 August 2025.
 
-Earth Engine treats the ending date as exclusive; therefore, the ending date below is 1 September 2025.
+Earth Engine treats the ending date as exclusive; thus, the ending date below is 1 September 2025.
 
 ```javascript
 
@@ -223,7 +223,7 @@ var mndwi = sentinel2Median
   
 ```
 
-# Step 5: Load Elevation and Calculate Slope
+# Step 5: Load Elevation 
 
 ```javascript
 
@@ -495,7 +495,7 @@ print('Class order used in accuracy results:', classOrder);
 
 ```
 
-* Create the validation confusion matrix. Rows and columns follow the class order as same as the "Id" Column in your Reference_Samples shapefile (Assest) .
+* Create the validation confusion matrix. Rows and columns follow the class order as same as the "Id" Column in your Reference_Samples shapefile (from GEE Asset) .
 
 ```javascript
 
