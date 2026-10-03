@@ -1,5 +1,3 @@
-<img width="235" height="110" alt="image" src="https://github.com/user-attachments/assets/accf59fd-96d3-42b0-b72e-5afaf1dc020d" />
-
 # Acknowledgements
 
 Google Earth Engine Developers
