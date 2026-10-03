@@ -728,4 +728,4 @@ Export.table.toDrive({
 
 Hawker, L., Uhe, P., Paulo, L., Sosa, J., Savage, J., Sampson, C., & Neal, J. (2022). A 30 m global map of elevation with forests and buildings removed. Environmental Research Letters, 17(2), 024016. DOI 10.1088/1748-9326/ac4d4f. URL: https://iopscience.iop.org/article/10.1088/1748-9326/ac4d4f/meta
 
-Mollick, Porni and Mello, Kaline de and Irvine, Dylan J. and Rangers, Malak Malak and Garcia, Erica A. and dos Santos Junior, Edimilson Rodrigues and Crabbe, Richard A., Integrating Indigenous Knowledge, Multi-Sensor Remote Sensing, and Machine Learning for Mapping Wetlands in Northern Australia. Available at SSRN: https://ssrn.com/abstract=5293856 or http://dx.doi.org/10.2139/ssrn.5293856
+Mollick, Porni and Mello, Kaline de and Irvine, Dylan J. and Rangers, Malak Malak and Garcia, Erica A. and dos Santos Junior, Edimilson Rodrigues and Crabbe, Richard A., Integrating Indigenous Knowledge, Multi-Sensor Remote Sensing, and Machine Learning for Mapping Wetlands in Northern Australia. Available at SSRN:  http://dx.doi.org/10.2139/ssrn.5293856
